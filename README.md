@@ -5,4 +5,4 @@ School GAFE Manager, for allowing District admins to better manage GAFE
 * Hopefull we will have A1 (Alpha 1) availalbe in August
 * Alpha 1 will be considered Version 0.1.0.0
   * Beta 1 will be considered Version 1.0.0.0
-  * Release and RC versions will be on the same level as Beta
+  * Release and RC versions will be on the same level as Betas
