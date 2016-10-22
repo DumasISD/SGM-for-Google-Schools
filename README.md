@@ -1,7 +1,7 @@
 # SGM-for-Google-Schools
 # Donation Button
 
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)]https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SSHAPEDWFJ2MS)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)(https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SSHAPEDWFJ2MS)
 
 School GAFE Manager, for allowing District admins to better manage GAFE
 
