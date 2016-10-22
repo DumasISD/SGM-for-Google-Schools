@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `dumas`
+-- Database: `SGM`
 --
 
 -- --------------------------------------------------------
@@ -341,9 +341,9 @@ CREATE TABLE IF NOT EXISTS `smart_groups` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3;
 
-insert into smart_groups (id, name, email, google_group_id, smart, `type`,`regexp`) values (1, "2019", "2019@dumassachools.net", "03q5sasy31jka7a", 1, 1, "19*");
-insert into smart_groups (id, name, email, google_group_id, smart, `type`,`regexp`) values (2, "2018", "2018@dumassachools.net", "03x8tuzt2gq5esc", 1, 1, "18*");
-insert into smart_groups (id, name, email, google_group_id, smart, `type`,`regexp`) values (3, "2017", "2017@dumassachools.net", "02s8eyo13wvv2ja", 1, 1, "17*");
+insert into smart_groups (id, name, email, google_group_id, smart, `type`,`regexp`) values (1, "2019", "2019@domain.net", "03q5sasy31jka7a", 1, 1, "19*");
+insert into smart_groups (id, name, email, google_group_id, smart, `type`,`regexp`) values (2, "2018", "2018@domain.net", "03x8tuzt2gq5esc", 1, 1, "18*");
+insert into smart_groups (id, name, email, google_group_id, smart, `type`,`regexp`) values (3, "2017", "2017@domain.net", "02s8eyo13wvv2ja", 1, 1, "17*");
 
 
 --
