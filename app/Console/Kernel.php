@@ -25,6 +25,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        #$schedule->command('inspire')->hourly();
+        $env_name = env('APP_ENV');
+        $env_name = "production";
+        $filePath = env('LOG_DIR') . "/smart.log";
+	# run every hour
+        $schedule->command("smart $env_name")->cron("0 */6 * * * *")->sendOutputTo($filePath);
+
     }
 }

@@ -54,7 +54,7 @@ class Smart extends Command {
         if ($env_name != "dev" && $env_name != "production") 
             throw new Exception("Error - env_name is invalid");
 
-	$keyfile = env("google_key_file2");
+	$keyfile = env("google_service_account_key_file2");
         $google = new Google($keyfile);
 
 
@@ -74,13 +74,18 @@ class Smart extends Command {
             $users = $results->getUsers();
             #print_r($users);
             
-            echo count($users);
+            echo "Num users: " . count($users) . "\n";
     
             foreach($users as $user){
                 $email = $user['primaryEmail'];
 	        Log::info('smart email', ['context' => $email]);
 			
-		if ($email != "christyvol@dumasschools.net" && $email != "joeparttime@dumasschools.net" && $email != "joeteacher@dumasschools.net") continue; 
+		if ($env_name == "dev") {
+			if ($email != "christyvol@dumasschools.net" && $email != "joeparttime@dumasschools.net" && $email != "joeteacher@dumasschools.net" ) continue;
+			}
+		else {
+			if ($email != "28jimtest@dumasisd.org" && $email != "28joetest@dumasisd.org" && $email != "28jantest@dumasisd.org") continue; 
+			}
 
                 echo $i . " " . $user['name']['givenName'] . " " . $user["primaryEmail"] . " " . $user['orgUnitPath'] . "\n";
                 $orgUnitPath = $user['orgUnitPath'];
@@ -137,7 +142,7 @@ class Smart extends Command {
 				    $employee_type = $org['description'];
 				    if (preg_match("/".$pattern."/", $employee_type)) {
 					echo "  match \n";
-                     $match=1;
+		                     $match=1;
 					$member = $google->getGroupMember($sg->google_group_id, $user['id']);
 					if (!$member) {
 					    echo "  not yet a member, so add \n";
@@ -157,7 +162,7 @@ class Smart extends Command {
 				    $department = $org['department'];
 				    if (preg_match("/".$pattern."/", $department)) {
 					echo "  match \n";
-                     $match=1;
+                     			$match=1;
 					$member = $google->getGroupMember($sg->google_group_id, $user['id']);
 					if (!$member) {
 					    echo "  not yet a member, so add \n";
@@ -177,7 +182,7 @@ class Smart extends Command {
 				    $costcenter = $org['costCenter'];
 				    if (preg_match("/".$pattern."/", $costcenter)) {
 					echo "  match \n";
-                     $match=1;
+                     			$match=1;
 					$member = $google->getGroupMember($sg->google_group_id, $user['id']);
 					if (!$member) {
 					    echo "  not yet a member, so add \n";
@@ -198,7 +203,7 @@ class Smart extends Command {
 				    $manager_email = $relation['value'];
 				    if (preg_match("/".$pattern."/", $manager_email)) {
 					echo "  match \n";
-                     $match=1;
+                     			$match=1;
 					$member = $google->getGroupMember($sg->google_group_id, $user['id']);
 					if (!$member) {
 					    echo "  not yet a member, so add \n";
@@ -218,7 +223,7 @@ class Smart extends Command {
 				    $title = $org['title'];
 				    if (preg_match("/".$pattern."/", $title)) {
 					echo "  match \n";
-                     $match=1;
+                     			$match=1;
 					$member = $google->getGroupMember($sg->google_group_id, $user['id']);
 					if (!$member) {
 					    echo "  not yet a member, so add \n";
@@ -259,13 +264,7 @@ class Smart extends Command {
 
 
 
-        $groups = SmartGroup::get();
-        Log::info('smart', ['context' => "start"]);
         
-        foreach ($users as $user) {
-        
-        }
-    
     #$this->notify($late_contacts,$ok_contacts,$env_name);
     }
 

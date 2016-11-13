@@ -10,13 +10,11 @@ env=$1
 
 . $HOME/dbauth.sh
 
-Username="sgm"
-Password="sgm"
 Server="localhost"
 
 if [ $env == "prod" ]; then
-  Database="sgm";
-  Server="127.0.0.1"
+  Database="sgm_prod";
+  #Server="127.0.0.1"
 elif [ $env == "dev" ]; then
   Database="sgm_dev";
   Server="127.0.0.1"

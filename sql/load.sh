@@ -16,17 +16,14 @@ fi
 
 . $HOME/dbauth.sh
 
-Username="sgm"
-Password="sgm"
 Server="localhost"
 
-
 if [ $env == "prod" ]; then
-  Database="sgm";
-  Server="127.0.0.1"
+  Database="sgm_prod";
+  #Server="127.0.0.1"
 elif [ $env == "dev" ]; then
   Database="sgm_dev";
-  Server="127.0.0.1"
+  #Server="127.0.0.1"
 else
   echo "error - bad db:  $env"
   exit 3
