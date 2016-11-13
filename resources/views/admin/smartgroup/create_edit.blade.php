@@ -21,6 +21,24 @@
 					<span class="help-block">{{ $errors->first('name', ':message') }}</span>
 				</div>
 			</div>
+			<div class="form-group  {{ $errors->has('googledomain_id') ? 'has-error' : '' }}">
+				{!! Form::label('google_domain_id', "Google Domain", array('class' => 'control-label')) !!}
+				<div class="controls">
+				 <select style="width: 100%" name="google_domain_id" id="google_domain_id" class="form-control">
+				    <option value="0">Select one</option>
+				    @foreach($googledomains as $domain)
+				    <option value="{{$domain->id}}"
+                        @if(!empty($smartgroup))
+					    	@if($smartgroup->google_domain_id==$domain->id)
+					    	    selected="selected"
+					    	@endif
+						@endif
+					 >{{$domain->name}}</option>
+				    @endforeach
+				</select>
+				</div>
+			</div>
+  
 			<div class="form-group  {{ $errors->has('email') ? 'has-error' : '' }}">
 				{!! Form::label('email', trans("admin/smartgroup.email"), array('class' => 'control-label')) !!}
 				<div class="controls">
