@@ -30,6 +30,7 @@
             <th>{{ trans("admin/smartgroup.google_group_id") }}</th>
             <th>{{ trans("admin/smartgroup.type") }}</th>
             <th>{{ trans("admin/smartgroup.email") }}</th>
+            <th>{{ trans("admin/smartgroup.google_domain") }}</th>
             <th>Action</th>
 
         </tr>

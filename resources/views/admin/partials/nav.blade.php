@@ -24,14 +24,19 @@
                         <i class="fa fa-language"></i> Smart Groups
                     </a>
                 </li>
+                <li>
+                    <a href="{{url('admin/googledomain')}}">
+                        <i class="fa fa-language"></i> Google Domains 
+                    </a>
+                </li>
 				 <li>
                     <a href="{{url('admin/google-groups')}}">
-                        <i class="fa fa-language"></i> Google Smart Groups (for debug)
+                        <i class="fa fa-language"></i> Google Groups
                     </a>
                 </li>
 				 <li>
                     <a href="{{url('admin/google-users')}}">
-                        <i class="fa fa-language"></i> Google Users (for debug)
+                        <i class="fa fa-language"></i> Google Users
                     </a>
                 </li>
                <!--  <li>

@@ -5,6 +5,7 @@ Route::model('article', 'App\Article');
 Route::model('articlecategory', 'App\ArticleCategory');
 Route::model('language', 'App\Language');
 Route::model('smartgroup', 'App\SmartGroup');
+Route::model('googledomain', 'App\GoogleDomain');
 Route::model('photoalbum', 'App\PhotoAlbum');
 Route::model('photo', 'App\Photo');
 Route::model('user', 'App\User');
@@ -44,6 +45,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
     Route::get('smartgroup/{smartgroup}/edit', 'Admin\SmartGroupController@edit');
     Route::get('smartgroup/{smartgroup}/delete', 'Admin\SmartGroupController@delete');
     Route::resource('smartgroup', 'Admin\SmartGroupController');
+
+    Route::get('googledomain/data', 'Admin\GoogleDomainController@data');
+    Route::get('googledomain/{googledomain}/show', 'Admin\GoogleDomainController@show');
+    Route::get('googledomain/{googledomain}/edit', 'Admin\GoogleDomainController@edit');
+    Route::get('googledomain/{googledomain}/delete', 'Admin\GoogleDomainController@delete');
+    Route::resource('googledomain', 'Admin\GoogleDomainController');
 
 
     # Article category
