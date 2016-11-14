@@ -17,12 +17,12 @@
                             <i class="glyphicon glyphicon-bullhorn fa-3x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge">{{$newscategory}}</div>
+                            <div class="huge">{{$smartgroup}}</div>
                             <div>Smart Groups</div>
                         </div>
                     </div>
                 </div>
-                <a href="{{url('admin/articlecategory')}}">
+                <a href="{{url('admin/smartgroup')}}">
                     <div class="panel-footer">
                         <span class="pull-left">{{ trans("admin/admin.view_detail") }}</span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

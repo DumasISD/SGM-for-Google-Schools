@@ -12,4 +12,15 @@ class SmartGroup extends Model {
 	protected $guarded  = array('id');
 
 
+	/**
+	 * Get the google domain name.
+	 *
+	 * @return Language
+	 */
+	public function google_domains()
+	{
+		return $this->belongsTo(GoogleDomain::class,'google_domain_id');
+	}
+
+
 }

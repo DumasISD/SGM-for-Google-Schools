@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 
 use App\ArticleCategory;
 use App\User;
+use App\SmartGroup;
 
 
 class DashboardController extends AdminController {
@@ -20,8 +21,9 @@ class DashboardController extends AdminController {
 
 
         $newscategory = ArticleCategory::count();
+        $smartgroup = Smartgroup::count();
         $users = User::count();
 
-		return view('admin.dashboard.index',  compact('title','news','newscategory','photo','photoalbum','users'));
+		return view('admin.dashboard.index',  compact('title','smartgroup','users'));
 	}
 }

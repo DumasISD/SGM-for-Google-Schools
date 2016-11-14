@@ -5,11 +5,15 @@
 :: @parent @endsection
 {{-- Content --}}
 @section('main')
-    <div class="page-header">
-        <h3>
-            {!! trans("admin/googlegroups.googlegroups") !!}
-        </h3>
-    </div>
+@include('notifications')
+<div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">
+						 {!! trans("admin/googlegroups.googlegroups") !!}
+					</h1>
+                </div>
+	  </div>
+
 
     {!! Form::open(array('url' => url('admin/google-groups'), 'method' => 'post', 'class' => 'bf', 'files'=> true)) !!}
 
@@ -29,7 +33,7 @@
                 </div>
 
     {!! Form::close() !!}
- 
+
 
     <table class="table table-striped table-hover">
         <thead>
@@ -48,7 +52,7 @@
 							<td>{!! $group['google_group_id'] !!}</td>
 							<td>{!! $group['name'] !!}</td>
 							<td>{!! $group['email'] !!}</td>
-							<td>@if($group['smart']) <a href=/admin/smartgroup/{{$group['id']}}/edit>Edit Smart Group</a> @else <a href=/admin/smartgroup/create2/{{$group['google_group_id']}}>Make Smart</a> @endif </td>
+							<td>@if($group['smart']) <a href="/admin/edit-smartgroup/{{$group['id']}}/edit">Edit Smart Group</a> @else <a href="/admin/make-smartgroup/{{$group['google_group_id']}}">Make Smart</a> @endif </td>
 						</tr>
 				   @endforeach
 				 @else
@@ -73,7 +77,7 @@ $("#google_domain_id").on('change', function() {
 
 var val = $(this).val();
 
-$(location).attr('href', '/admin/google-groups/' + val);
+$(location).attr('href', '/dumas4/public/admin/google-groups/' + val);
 
 });
 

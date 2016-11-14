@@ -41,20 +41,8 @@ class SmartGroupController extends AdminController {
 	public function create()
 	{
        // Show the page
-	$googledomains = GoogleDomain::all(); 			
+	$googledomains = GoogleDomain::all();
         return view('admin/smartgroup/create_edit',compact('googledomains'));
-	}
-
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create2($existing_google_group_id)
-	{
-       // Show the page
-	$googledomains = GoogleDomain::all(); 			
-        return view('admin/smartgroup/create_edit',compact('googledomains','existing_google_group_id'));
 	}
 
 	/**
@@ -91,6 +79,34 @@ class SmartGroupController extends AdminController {
         Log::info('smartgroup controller', ['context' => $group]);
         $group -> save();
 	}
+
+	public function saveSmartGroup(SmartGroupRequest $request)
+	{
+        if (!$request->google_group_id || $request->google_group_id=="") {
+            $google = new Google();
+
+            $email = $request->email;
+                Log::info('smartgroup controller', ['context' => $email]);
+            $name = $request->name;
+                Log::info('smartgroup controller', ['context' => $name]);
+            $desc = $request->description;
+                Log::info('smartgroup controller', ['context' => $desc]);
+            $results=$google->addGroup($email, $name, $desc);
+            var_dump($results);
+            $id = $results->getId();
+            }
+        else {
+            $id = $request->google_group_id;
+        }
+
+        $group = new SmartGroup($request->all());
+        ##$group -> user_id = Auth::id();
+        $group->smart=1;
+        $group->google_group_id=$id;
+        Log::info('smartgroup controller', ['context' => $group]);
+        $group -> save();
+		return redirect('admin/google-groups')->with('success', 'Smart Group Inserted Successfully');
+	}
 	/**
 	 * Show the form for editing the specified resource.
 	 *
@@ -99,7 +115,7 @@ class SmartGroupController extends AdminController {
 	 */
 	public function edit(SmartGroup $smartgroup)
 	{
-	$googledomains = GoogleDomain::all(); 			
+		$googledomains = GoogleDomain::all();
         return view('admin/smartgroup/create_edit',compact('smartgroup','googledomains'));
 	}
 
@@ -113,6 +129,19 @@ class SmartGroupController extends AdminController {
 	{
         #$smartgroup -> user_id_edited = Auth::id();
         $smartgroup -> update($request->all());
+	}
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+
+	public function updateSmartGroup(SmartGroupRequest $request, SmartGroup $smartgroup)
+	{
+        $smartgroup -> update($request->all());
+		return redirect('admin/google-groups')->with('success', 'Smart Group Updated Successfully');
 	}
 
     /**
@@ -151,10 +180,11 @@ Log::info('smartgroup controller', ['context' => "data"]);
         $googledomains = GoogleDomain::all();
         $d=array();
         foreach ($googledomains as $domain) {
-            $d[$domain->id] = $domain->name; 
+            $d[$domain->id] = $domain->name;
             }
 Log::info('smartgroup controller', ['d' => $d]);
-        $smartgroups = SmartGroup::whereNull('smart_groups.deleted_at')
+		$smartgroups = SmartGroup::with('google_domains')
+			->whereNull('smart_groups.deleted_at')
             ->orderBy('smart_groups.name', 'ASC')
 			->get()
 			->map(function ($smartgroup) {
@@ -164,15 +194,13 @@ Log::info('smartgroup controller', ['d' => $d]);
 					'google_group' => $smartgroup->google_group_id,
 					'type' => $smartgroup->type,
 					'email' => $smartgroup->email,
-					'google_domain' => $smartgroup->google_domain_id,
+					'google_domain' =>isset($smartgroup->google_domains) ? $smartgroup->google_domains->name : "",
 
 				];
 			});
 Log::info('smartgroup controller', ['context' => $smartgroups]);
         return Datatables::of($smartgroups)
-
 			 ->edit_column('type', '@if ($type=="1") Email @elseif ($type=="2") Org Unit @elseif ($type=="3") Employee Type @elseif ($type=="4") Department @elseif ($type=="5") Cost Center @elseif ($type=="6") Manager Email  @elseif ($type=="7") Employee Title @else  Custom  @endif')
-			 ->edit_column('google_domain', $d[102])
             ->add_column('actions', '<a href="{{{ url(\'admin/smartgroup/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm iframe" ><span class="glyphicon glyphicon-pencil"></span> {{ trans("admin/modal.edit") }}</a>
                     <a href="{{{ url(\'admin/smartgroup/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btn-danger iframe"><span class="glyphicon glyphicon-trash"></span> {{ trans("admin/modal.delete") }}</a>
                     <input type="hidden" name="row" value="{{$id}}" id="row">')

@@ -11,18 +11,19 @@
 
 {{-- Content --}}
 @section('main')
-    <div class="page-header">
-        <h3>
-           Groups
-
-            <div class="pull-right">
+<div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">
+						 Groups
+					</h1>
+                </div>
+				 <div class="pull-right">
                 <a href="{!!  url('admin/smartgroup/create') !!}"
                    class="btn btn-sm  btn-primary iframe"><span
                             class="glyphicon glyphicon-plus-sign"></span> {!!
 				trans("admin/modal.new") !!}</a>
-            </div>
-        </h3>
-    </div>
+			 </div>
+ </div>
     <table id="table" class="table table-striped table-hover">
         <thead>
         <tr>

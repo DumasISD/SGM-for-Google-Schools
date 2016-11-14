@@ -2,7 +2,6 @@
 
 /****************   Model binding into route **************************/
 Route::model('article', 'App\Article');
-Route::model('articlecategory', 'App\ArticleCategory');
 Route::model('language', 'App\Language');
 Route::model('smartgroup', 'App\SmartGroup');
 Route::model('googledomain', 'App\GoogleDomain');
@@ -39,12 +38,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
     Route::get('language/{language}/delete', 'Admin\LanguageController@delete');
     Route::resource('language', 'Admin\LanguageController');
 
-    
+
     Route::get('smartgroup/data', 'Admin\SmartGroupController@data');
     Route::get('smartgroup/{smartgroup}/show', 'Admin\SmartGroupController@show');
     Route::get('smartgroup/{smartgroup}/edit', 'Admin\SmartGroupController@edit');
     Route::get('smartgroup/{smartgroup}/delete', 'Admin\SmartGroupController@delete');
-    Route::get('smartgroup/create2/{existing_google_group_id}', 'Admin\SmartGroupController@create2');
     Route::resource('smartgroup', 'Admin\SmartGroupController');
 
     Route::get('googledomain/data', 'Admin\GoogleDomainController@data');
@@ -64,6 +62,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
 
 	 # groups
     Route::get('google-groups', 'Admin\GoogleController@listGroups');
+	Route::get('make-smartgroup/{existing_google_group_id}', 'Admin\GoogleController@getSmartGroupCreate');
+	Route::get('edit-smartgroup/{smartgroup}/edit', 'Admin\GoogleController@getSmartGroupEdit');
+	Route::post('smartgroup/add', 'Admin\SmartGroupController@saveSmartGroup');
+	Route::post('edit-smartgroup/{smartgroup}/edit', 'Admin\SmartGroupController@updateSmartGroup');
     Route::get('google-groups/{google_domain_id}', 'Admin\GoogleController@listGroups2');
 
 	 # google users

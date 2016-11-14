@@ -11,18 +11,20 @@
 
 {{-- Content --}}
 @section('main')
-    <div class="page-header">
-        <h3>
-           Google Domains
-
-            <div class="pull-right">
+<div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">
+						 Google Domains
+					</h1>
+                </div>
+				 <div class="pull-right">
                 <a href="{!!  url('admin/googledomain/create') !!}"
                    class="btn btn-sm  btn-primary iframe"><span
                             class="glyphicon glyphicon-plus-sign"></span> {!!
 				trans("admin/modal.new") !!}</a>
             </div>
-        </h3>
-    </div>
+ </div>
+
     <table id="table" class="table table-striped table-hover">
         <thead>
         <tr>

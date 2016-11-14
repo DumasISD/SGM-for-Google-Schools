@@ -38,7 +38,7 @@
 				</select>
 				</div>
 			</div>
-  
+
 			<div class="form-group  {{ $errors->has('email') ? 'has-error' : '' }}">
 				{!! Form::label('email', trans("admin/smartgroup.email"), array('class' => 'control-label')) !!}
 				<div class="controls">

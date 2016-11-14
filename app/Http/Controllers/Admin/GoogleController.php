@@ -29,6 +29,24 @@ class GoogleController extends AdminController
         return view('admin.googlegroups.index');
     }
 
+	/**
+	 * Show the form for creating a new resource.
+	 *
+	 * @return Response
+	 */
+	public function getSmartGroupCreate($existing_google_group_id)
+	{
+       // Show the page
+		$googledomains = GoogleDomain::all();
+        return view('admin/googlegroups/create_edit',compact('googledomains','existing_google_group_id'));
+	}
+
+	public function getSmartGroupEdit(SmartGroup $smartgroup)
+	{
+	   $googledomains = GoogleDomain::all();
+        return view('admin/googlegroups/create_edit',compact('smartgroup','googledomains'));
+	}
+
     public function listGroups()
     {
         $googledomains = GoogleDomain::all();
@@ -36,7 +54,7 @@ class GoogleController extends AdminController
         $selected_domain_id = $domain->id;
  Log::info('googledomain controller domain', ['context' => $selected_domain_id]);
  Log::info('googledomain controller domain', ['context' => $domain]);
-        
+
 		$google=new Google();
 		$group_list=$google->getGoogleGroups($domain->name);
      Log::info('googledomain controller group_list', ['context' => $group_list]);
@@ -107,6 +125,6 @@ class GoogleController extends AdminController
         $google=new Google();
         $users_list=$google->getGoogleUsers($domain_name);
 		return view('admin.googleusers.index', compact('users_list','googledomains','selected_domain_id'));
-    } 
+    }
 
 }
