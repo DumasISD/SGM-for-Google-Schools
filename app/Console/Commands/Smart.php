@@ -13,6 +13,7 @@ use DB;
 use App\User;
 use App\Google;
 use App\SmartGroup;
+use App\GoogleDomain;
 
 use Carbon\Carbon;
 
@@ -57,20 +58,27 @@ class Smart extends Command {
 	$keyfile = env("google_service_account_key_file2");
         $google = new Google($keyfile);
 
+        $googledomains = GoogleDomain::all();
 
-            $results=$google->getGoogleGroups();
+
+        foreach ($googledomains as $domain) {
+            $domain_name = $domain->name;
+            echo "Domain name: $domain_name =================================== \n";
+
+            $results=$google->getGoogleGroups($domain_name);
             $groups = $results->getGroups();
-    #    print_r($groups);
+        #print_r($groups);
 
-        $sg_list = SmartGroup::get();
-    #    print_r($sg_list);
+        $sg_list = SmartGroup::where("google_domain_id","=",$domain->id)->get();
+        #print_r($sg_list);
         
+
     
         $next = null;
         $page=1;
         $i=1;
         while ($next || $page==1) {
-            $results=$google->getGoogleUsers($next);
+            $results=$google->getGoogleUsers($domain_name,$next);
             $users = $results->getUsers();
             #print_r($users);
             
@@ -260,7 +268,7 @@ class Smart extends Command {
             $page++;
             }
         echo "page: $page \n";
-        exit;
+        }
 
 
 

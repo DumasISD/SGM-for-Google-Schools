@@ -46,6 +46,18 @@ class SmartGroupController extends AdminController {
 	}
 
 	/**
+	 * Show the form for creating a new resource.
+	 *
+	 * @return Response
+	 */
+	public function create2($existing_google_group_id)
+	{
+       // Show the page
+	$googledomains = GoogleDomain::all(); 			
+        return view('admin/smartgroup/create_edit',compact('googledomains','existing_google_group_id'));
+	}
+
+	/**
 	 * Store a newly created resource in storage.
 	 *
 	 * @return Response

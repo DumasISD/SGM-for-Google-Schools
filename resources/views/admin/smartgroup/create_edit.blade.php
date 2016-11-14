@@ -57,7 +57,11 @@
 				{!! Form::label('google_group_id', trans("admin/smartgroup.google_group_id"), array('class' => 'control-label')) !!}
 	(Leave blank if you want to create it in Google now)
 				<div class="controls">
+                    @if (isset($existing_google_group_id))
+					{!! Form::text('google_group_id', $existing_google_group_id, array('class' => 'form-control')) !!}
+                    @else
 					{!! Form::text('google_group_id', null, array('class' => 'form-control')) !!}
+                    @endif
 					<span class="help-block">{{ $errors->first('google_group_id', ':message') }}</span>
 				</div>
 			</div>

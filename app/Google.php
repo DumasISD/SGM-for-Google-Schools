@@ -95,11 +95,11 @@ public function deleteUserFromGroup($user_id,$group_id) {
 	
     }
 
-    public function getGoogleUsers($next=null){
+    public function getGoogleUsers($domain,$next=null){
 		$service_token=$this->getServiceToken();
 		
 		$params = array(
-		  'domain' => $this->google_domain, 
+		  'domain' => $domain, 
 		  'maxResults' => 500,
 		  'orderBy' => 'email',
 		);
@@ -110,12 +110,11 @@ public function deleteUserFromGroup($user_id,$group_id) {
     }
 
 
-
-	 public function getGoogleGroups(){
+	 public function getGoogleGroups($domain){
 		$service_token=$this->getServiceToken();
 		
 		$optParams = array(
-		  'domain' => $this->google_domain,
+		  'domain' => $domain,
 		  'maxResults' => 500,
 		);
 		$results = $this->service->groups->listGroups($optParams);

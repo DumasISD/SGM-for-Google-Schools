@@ -44,6 +44,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
     Route::get('smartgroup/{smartgroup}/show', 'Admin\SmartGroupController@show');
     Route::get('smartgroup/{smartgroup}/edit', 'Admin\SmartGroupController@edit');
     Route::get('smartgroup/{smartgroup}/delete', 'Admin\SmartGroupController@delete');
+    Route::get('smartgroup/create2/{existing_google_group_id}', 'Admin\SmartGroupController@create2');
     Route::resource('smartgroup', 'Admin\SmartGroupController');
 
     Route::get('googledomain/data', 'Admin\GoogleDomainController@data');
@@ -63,9 +64,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
 
 	 # groups
     Route::get('google-groups', 'Admin\GoogleController@listGroups');
+    Route::get('google-groups/{google_domain_id}', 'Admin\GoogleController@listGroups2');
 
 	 # google users
     Route::get('google-users', 'Admin\GoogleController@listGoogleUsers');
+    Route::get('google-users/{google_domain_id}', 'Admin\GoogleController@listGoogleUsers2');
 
     # Users
     Route::get('user/data', 'Admin\UserController@data');
