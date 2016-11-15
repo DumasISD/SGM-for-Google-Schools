@@ -11,6 +11,7 @@
 
 {{-- Content --}}
 @section('main')
+@include('notifications')
 <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">
@@ -40,4 +41,16 @@
 
 {{-- Scripts --}}
 @section('scripts')
-@endsection
+    @parent
+    <script type="text/javascript">
+        $(document).ready(function () {
+			$('body').on('click', '.delete_domain', function(e){
+			//$('.delete_domain').on('click',function(e){
+                if(confirm("Are you sure to delete the domain?"))
+                   return true;
+                return false;
+            });
+		 });
+    </script>
+@stop
+

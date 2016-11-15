@@ -49,6 +49,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
     Route::get('googledomain/{googledomain}/show', 'Admin\GoogleDomainController@show');
     Route::get('googledomain/{googledomain}/edit', 'Admin\GoogleDomainController@edit');
     Route::get('googledomain/{googledomain}/delete', 'Admin\GoogleDomainController@delete');
+    Route::get('googledomain/{googledomain}/delete-domain', 'Admin\GoogleDomainController@deleteDomain');
     Route::resource('googledomain', 'Admin\GoogleDomainController');
 
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Input;
 use App\GoogleDomain;
+use App\SmartGroup;
 use App\Http\Requests\Admin\GoogleDomainRequest;
 use App\Http\Requests\Admin\DeleteRequest;
 use App\Http\Requests\Admin\ReorderRequest;
@@ -97,9 +98,16 @@ class GoogleDomainController extends AdminController {
      * @param $id
      * @return Response
      */
-    public function destroy(GoogleDomain $googledomain)
+    public function deleteDomain(GoogleDomain $googledomain)
     {
-        $googledomain->delete();
+		//check record exist in smart group
+		$smart_group = SmartGroup::where('google_domain_id', '=', $googledomain->id)->first();
+		if ($smart_group === null) {
+		  $googledomain->delete();
+		  return redirect('admin/googledomain')->with('success', 'Domain Deleted Successfully');
+		}else{
+			return redirect('admin/googledomain')->with('error', 'Unable to delete the domain because there are smart groups that exists that are related to this domain. Delete the smart group first.');
+		}
     }
 
 
@@ -128,7 +136,7 @@ Log::info('googledomain controller', ['context' => $googledomains]);
         return Datatables::of($googledomains)
 
             ->add_column('actions', '<a href="{{{ url(\'admin/googledomain/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm iframe" ><span class="glyphicon glyphicon-pencil"></span> {{ trans("admin/modal.edit") }}</a>
-                    <a href="{{{ url(\'admin/googledomain/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btn-danger iframe"><span class="glyphicon glyphicon-trash"></span> {{ trans("admin/modal.delete") }}</a>
+                    <a href="{{{ url(\'admin/googledomain/\' . $id . \'/delete-domain\' ) }}}" class="btn btn-sm btn-danger delete_domain"><span class="glyphicon glyphicon-trash"></span> {{ trans("admin/modal.delete") }}</a>
                     <input type="hidden" name="row" value="{{$id}}" id="row">')
             ->remove_column('id')
 
