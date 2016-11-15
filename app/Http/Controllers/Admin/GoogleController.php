@@ -50,6 +50,11 @@ class GoogleController extends AdminController
     public function listGroups()
     {
         $googledomains = GoogleDomain::all();
+        $c=count($googledomains);
+ Log::info('googledomain controller count', ['context' => $c]);
+        if (count($googledomains) == 0) {
+            return view('admin.googlegroups.none');
+            }
         $domain = $googledomains[0];
         $selected_domain_id = $domain->id;
  Log::info('googledomain controller domain', ['context' => $selected_domain_id]);
@@ -104,6 +109,12 @@ class GoogleController extends AdminController
 	 public function listGoogleUsers()
     {
         $googledomains = GoogleDomain::all();
+       $c=count($googledomains);
+       Log::info('googledomain controller count', ['context' => $c]);
+       if (count($googledomains) == 0) {
+            return view('admin.googleusers.none');
+            }
+
         $domain = $googledomains[0];
         $selected_domain_id = $domain->id;
 
