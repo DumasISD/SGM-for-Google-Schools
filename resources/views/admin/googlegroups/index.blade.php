@@ -77,7 +77,7 @@ $("#google_domain_id").on('change', function() {
 
 var val = $(this).val();
 
-$(location).attr('href', '/dumas4/public/admin/google-groups/' + val);
+$(location).attr('href', '/admin/google-groups/' + val);
 
 });
 

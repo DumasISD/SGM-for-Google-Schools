@@ -92,7 +92,8 @@ class Smart extends Command {
 			if ($email != "christyvol@dumasschools.net" && $email != "joeparttime@dumasschools.net" && $email != "joeteacher@dumasschools.net" ) continue;
 			}
 		else {
-			if ($email != "28jimtest@dumasisd.org" && $email != "28joetest@dumasisd.org" && $email != "28jantest@dumasisd.org") continue; 
+			if ($email != "28jimtest@dumasisd.org" && $email != "28joetest@dumasisd.org" && $email != "28jantest@dumasisd.org" &&
+			    $email != "28jimtest@disd.me" && $email != "28joetest@disd.me" && $email != "28jantest@disd.me") continue; 
 			}
 
                 echo $i . " " . $user['name']['givenName'] . " " . $user["primaryEmail"] . " " . $user['orgUnitPath'] . "\n";
