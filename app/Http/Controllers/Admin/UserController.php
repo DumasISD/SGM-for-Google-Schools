@@ -46,6 +46,7 @@ class UserController extends AdminController
 
         $user = new User ($request->except('password','password_confirmation'));
         $user->password = bcrypt($request->password);
+        $user->admin = 1;
         $user->confirmation_code = str_random(32);
         $user->save();
     }
