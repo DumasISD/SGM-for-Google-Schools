@@ -26,7 +26,7 @@
                 </li>
                 <li>
                     <a href="{{url('admin/googledomain')}}">
-                        <i class="fa fa-language"></i> Google Domains 
+                        <i class="fa fa-language"></i> Google Domains
                     </a>
                 </li>
 				 <li>
@@ -37,6 +37,11 @@
 				 <li>
                     <a href="{{url('admin/google-users')}}">
                         <i class="fa fa-language"></i> Google Users
+                    </a>
+                </li>
+				 <li>
+                    <a href="{{url('admin/group/query-builder')}}">
+                        <i class="fa fa-language"></i> Query Builder
                     </a>
                 </li>
                <!--  <li>
