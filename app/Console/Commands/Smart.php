@@ -91,12 +91,15 @@ class Smart extends Command {
 		if ($env_name == "dev") {
 			if ($email != "christyvol@dumasschools.net" && $email != "joeparttime@dumasschools.net" && $email != "joeteacher@dumasschools.net" ) continue;
 			}
+/*  enable this code to put the cron into "safe" mode where it will consider only these emails below.
 		else {
 			if ($email != "28jimtest@dumasisd.org" && $email != "28joetest@dumasisd.org" && $email != "28jantest@dumasisd.org" &&
 			    $email != "28jimtest@disd.me" && $email != "28joetest@disd.me" && $email != "28jantest@disd.me") continue; 
 			}
+*/
 
-                echo $i . " " . $user['name']['givenName'] . " " . $user["primaryEmail"] . " " . $user['orgUnitPath'] . "\n";
+                #print_r($user);
+                echo $i . " " . $user['name']['givenName'] . " " . $user["primaryEmail"] . " " . $user['orgUnitPath'] . " suspended: " . $user['suspended'] . "\n";
                 $orgUnitPath = $user['orgUnitPath'];
                 $organizations = array();
                 if (isset($user['organizations']))
@@ -104,6 +107,10 @@ class Smart extends Command {
                 $relations = array();
                 if (isset($user['relations']))
 	                $relations = $user['relations'];
+
+                $suspended=0;
+                if ($user['suspended'] == 1)
+                    $suspended=1;
 
                 reset($sg_list);
                 foreach ($sg_list as $sg) {
@@ -249,7 +256,7 @@ class Smart extends Command {
 
                     }
                 
-                if (!$match) {
+                if (!$match || $suspended) {
                     $member = $google->getGroupMember($sg->google_group_id, $user['id']);
                     if ($member) {
                         echo "  already a  member, so delete \n";
