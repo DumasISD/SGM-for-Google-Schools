@@ -6,7 +6,8 @@
     "illuminate/html" : "5.0.*",
     "yajra/laravel-datatables-oracle" : ">=v4.0.1",
     "zizaco/entrust": "dev-laravel-5",
-    "google/apiclient": "^2.0"
+    "google/apiclient": "^2.0",
+    "timgws/query-builder-parser": "^2.0"
   },
   "minimum-stability": "dev",
   "require-dev" : {

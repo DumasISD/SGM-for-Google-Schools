@@ -33,6 +33,11 @@ class SmartGroupController extends AdminController {
         return view('admin.smartgroup.index');
 	}
 
+	public function queryBuilder()
+	{
+        return view('admin.smartgroup.query_builder');
+	}
+
 	/**
 	 * Show the form for creating a new resource.
 	 *
