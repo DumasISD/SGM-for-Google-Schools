@@ -11,6 +11,7 @@
 
 {{-- Content --}}
 @section('main')
+@include('notifications')
 <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">
@@ -19,7 +20,7 @@
                 </div>
 				 <div class="pull-right">
                 <a href="{!!  url('admin/smartgroup/create') !!}"
-                   class="btn btn-sm  btn-primary iframe"><span
+                   class="btn btn-sm  btn-primary"><span
                             class="glyphicon glyphicon-plus-sign"></span> {!!
 				trans("admin/modal.new") !!}</a>
 			 </div>

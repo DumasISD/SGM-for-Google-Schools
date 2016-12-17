@@ -412,6 +412,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     {
         $totallyGuarded = $this->totallyGuarded();
 
+
         foreach ($this->fillableFromArray($attributes) as $key => $value) {
             $key = $this->removeTableFromKey($key);
 
@@ -1386,6 +1387,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
      */
     public function update(array $attributes = [])
     {
+
         if (! $this->exists) {
             return false;
         }

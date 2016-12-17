@@ -40,9 +40,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
 
 
     Route::get('smartgroup/data', 'Admin\SmartGroupController@data');
+	Route::get('smartgroup/create', 'Admin\SmartGroupController@create');
+	Route::post('smartgroup/create', 'Admin\SmartGroupController@store');
     Route::get('group/query-builder', 'Admin\SmartGroupController@queryBuilder');
     Route::get('smartgroup/{smartgroup}/show', 'Admin\SmartGroupController@show');
     Route::get('smartgroup/{smartgroup}/edit', 'Admin\SmartGroupController@edit');
+	Route::post('smartgroup/{id}/edit', 'Admin\SmartGroupController@update');
     Route::get('smartgroup/{smartgroup}/delete', 'Admin\SmartGroupController@delete');
     Route::resource('smartgroup', 'Admin\SmartGroupController');
 

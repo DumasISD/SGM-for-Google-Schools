@@ -51,7 +51,7 @@ class GoogleController extends AdminController
     {
         $googledomains = GoogleDomain::all();
         $c=count($googledomains);
- Log::info('googledomain controller count', ['context' => $c]);
+		Log::info('googledomain controller count', ['context' => $c]);
         if (count($googledomains) == 0) {
             return view('admin.googlegroups.none');
             }

@@ -76,13 +76,21 @@ class SmartGroupController extends AdminController {
         else {
             $id = $request->google_group_id;
         }
-
-        $group = new SmartGroup($request->all());
+        $group = new SmartGroup();
         ##$group -> user_id = Auth::id();
         $group->smart=1;
+		$group->name=$request->name;
+        $group->google_domain_id=$request->google_domain_id;
+        $group->email=$request->email;
+        $group->description=$request->description;
+        $group->google_group_id=$request->google_group_id;
+       //$group->type=$request->type;
+       // $group->regexp=$request->regexp;
+        $group->pattern_condition=$request->pattern_condition;
         $group->google_group_id=$id;
         Log::info('smartgroup controller', ['context' => $group]);
         $group -> save();
+	    return redirect('admin/smartgroup')->with('success', 'Smartgroup Created Successfully');
 	}
 
 	public function saveSmartGroup(SmartGroupRequest $request)
@@ -130,10 +138,20 @@ class SmartGroupController extends AdminController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update(SmartGroupRequest $request, SmartGroup $smartgroup)
+	public function update(SmartGroupRequest $request,$id)
 	{
         #$smartgroup -> user_id_edited = Auth::id();
-        $smartgroup -> update($request->all());
+		$smartgroup = SmartGroup::find($id);
+        $smartgroup->name=$request->name;
+        $smartgroup->google_domain_id=$request->google_domain_id;
+        $smartgroup->email=$request->email;
+        $smartgroup->description=$request->description;
+        $smartgroup->google_group_id=$request->google_group_id;
+        //$smartgroup->type=$request->type;
+        //$smartgroup->regexp=$request->regexp;
+        $smartgroup->pattern_condition=$request->pattern_condition;
+		$smartgroup -> save();
+		return redirect('admin/smartgroup')->with('success', 'Smartgroup Updated Successfully');
 	}
 
 	/**
@@ -206,7 +224,7 @@ Log::info('smartgroup controller', ['d' => $d]);
 Log::info('smartgroup controller', ['context' => $smartgroups]);
         return Datatables::of($smartgroups)
 			 ->edit_column('type', '@if ($type=="1") Email @elseif ($type=="2") Org Unit @elseif ($type=="3") Employee Type @elseif ($type=="4") Department @elseif ($type=="5") Cost Center @elseif ($type=="6") Manager Email  @elseif ($type=="7") Employee Title @else  Custom  @endif')
-            ->add_column('actions', '<a href="{{{ url(\'admin/smartgroup/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm iframe" ><span class="glyphicon glyphicon-pencil"></span> {{ trans("admin/modal.edit") }}</a>
+            ->add_column('actions', '<a href="{{{ url(\'admin/smartgroup/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-pencil"></span> {{ trans("admin/modal.edit") }}</a>
                     <a href="{{{ url(\'admin/smartgroup/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btn-danger iframe"><span class="glyphicon glyphicon-trash"></span> {{ trans("admin/modal.delete") }}</a>
                     <input type="hidden" name="row" value="{{$id}}" id="row">')
             ->remove_column('id')

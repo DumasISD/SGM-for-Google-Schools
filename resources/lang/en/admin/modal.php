@@ -11,5 +11,6 @@ return [
     'delete' => 'Delete',
     'items' => 'Items',
     'name' => 'Name',
+    'back' => 'Back',
     'delete_message' => 'Did you want to delete this item?',
 ];

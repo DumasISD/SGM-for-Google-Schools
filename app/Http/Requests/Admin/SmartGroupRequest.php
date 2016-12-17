@@ -13,7 +13,7 @@ class SmartGroupRequest extends FormRequest {
 	{
 		return [
             'name' => 'required|min:3',
-            'regexp' => 'required|min:1',
+            //'regexp' => 'required|min:1',
 		];
 	}
 

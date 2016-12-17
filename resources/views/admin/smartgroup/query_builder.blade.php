@@ -24,17 +24,16 @@
 	<div id="builder"></div>
 	<div class="btn-group">
 	  <button class="btn btn-danger reset">Reset</button>
-
 	</div>
-	 <div class="btn-group">
-		  <button class="btn btn-default" disabled>Get:</button>
-		  <button class="btn btn-primary parse-json">JSON</button>
-		  <button class="btn btn-primary parse-sql" data-stmt="false">SQL</button>
-		  <button class="btn btn-primary parse-sql" data-stmt="question_mark">SQL statement</button>
-
-		</div>
+	<div class="btn-group">
+	  <button class="btn btn-default" disabled>Get:</button>
+	  <button class="btn btn-primary parse-json">JSON</button>
+	  <button class="btn btn-primary parse-sql" data-stmt="false">SQL</button>
+	  <button class="btn btn-primary parse-sql" data-stmt="question_mark">SQL statement</button>
+	</div>
 
     <div id="result" class="hide">
+	 <textarea  id="result"> </textarea>
       <h3>Output</h3>
       <pre></pre>
     </div>
@@ -50,23 +49,30 @@
     <script type="text/javascript">
 	$(document).ready(function() {
 	var rules_basic = {
-  condition: 'AND',
-  rules: [{
-    id: 'price',
-    operator: 'less',
-    value: 10.25
-  }, {
-    condition: 'OR',
-    rules: [{
-      id: 'category',
-      operator: 'equal',
-      value: 2
-    }, {
-      id: 'category',
-      operator: 'equal',
-      value: 1
-    }]
-  }]
+   "condition": "AND",
+   "rules": [
+    {
+      "id": "price",
+      "field": "price",
+      "type": "double",
+      "input": "text",
+      "operator": "less",
+      "value": "10.25"
+    },
+    {
+      "condition": "OR",
+      "rules": [
+        {
+          "id": "category",
+          "field": "category",
+          "type": "integer",
+          "input": "select",
+          "operator": "equal",
+          "value": "2"
+        }
+      ]
+    }
+  ]
 };
 
 $('#builder').queryBuilder({
@@ -155,6 +161,7 @@ $('.parse-json').on('click', function() {
 
 $('.parse-sql').on('click', function() {
   var res = $('#builder').queryBuilder('getSQL', $(this).data('stmt'), false);
+  console.log(res.sql);
   $('#result').removeClass('hide')
     .find('pre').html(
       res.sql + (res.params ? '\n\n' + JSON.stringify(res.params, undefined, 2) : '')
