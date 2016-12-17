@@ -336,6 +336,7 @@ CREATE TABLE IF NOT EXISTS `smart_groups` (
   `google_domain_id` int(10) not null default 0,
   `type` tinyint(1) NOT NULL DEFAULT '0',
   `regexp` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+   `pattern_condition` text COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `deleted_at` timestamp NULL DEFAULT NULL,
