@@ -26,6 +26,7 @@
 	action="@if (isset($smartgroup)){{ URL::to('admin/smartgroup' . $smartgroup->id . '/edit') }}@endif"
 	autocomplete="off">
 	<input type="hidden" name="_token" value="{{{ csrf_token() }}}" /> -->
+	<div class="row">
 	<div class="tab-content">
 		<div class="tab-pane active" id="tab-general">
 			<div class="form-group  {{ $errors->has('name') ? 'has-error' : '' }}">
@@ -145,9 +146,9 @@
 			</div> -->
 		</div>
 	</div>
-	 <div class="row">
+
      </div>
-	<div class="form-group">
+	<div class="form-group mt20">
 		<div class="col-md-offset-2 col-md-6">
 			<button type="submit" id="submit" class="btn btn-sm btn-success">
 				<span class="glyphicon glyphicon-ok-circle"></span>
@@ -160,6 +161,7 @@
 			<a class="btn btn-sm btn-default" href="{{ url('admin/smartgroup') }}"> <span class="glyphicon glyphicon-remove-circle"></span> {{
 				trans("admin/modal.back") }}</a>
 		</div>
+	</div>
 	</div>
 {!! Form::close() !!}
 @endsection
