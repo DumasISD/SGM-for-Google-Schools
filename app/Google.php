@@ -10,7 +10,6 @@ class Google{
 
     protected $service;
     protected $admin_user;
-    protected $google_domain;
 
     function __construct($key_file=null){
         $this->client_id =Config::get('google.client_id');
@@ -22,7 +21,6 @@ class Google{
 		$this->client = new \Google_Client();
 		$this->service = new \Google_Service_Directory($this->client);
         $this->client->setApplicationName("Dumas");
-        $this->google_domain = env('google_domain_name');
         $this->admin_user = env('google_admin_user');
     }
 

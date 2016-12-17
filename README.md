@@ -44,15 +44,23 @@ In your google account, create a service account.  This app will make use of the
                                 /cache
                                 /sessions
                                 /views
-        Make sure the apache user can write to the files in /storage
+                /bootstrap
+                        /cache
+        Make sure the apache user can write to the files in /storage and /bootstrap
         Initialize the database with the file /sql/schema.sql
+
          
         Update the .env file with the information from your google account.
-                Google Domain Name
                 Google Admin User for the Google Domain
                 Google service account name
                 Path to the .p12 file
 
+        Login
+            userid: admin@admin.com
+            pw: admin
+
+        After Login
+            Click on Google Domains and add 1 or more domains.  The system depends on these values.
 
 ## sample .env file
 	APP_ENV=dev
@@ -68,7 +76,6 @@ In your google account, create a service account.  This app will make use of the
 	DEV_EMAIL=you@domain.com
 
 	google_client_id=xxx.apps.googleusercontent.com
-	google_domain_name=domainname.com
 	google_admin_user=admin@domainname.com
 	google_service_account_name=xxx@yyy.iam.gserviceaccount.com
 
