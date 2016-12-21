@@ -119,7 +119,8 @@
 							</div>
 							 @if(env('APP_ENV') !="production")
 							<div class="btn-group">
-							  <button class="btn btn-primary parse-sql" data-stmt="false" type="button">View SQL</button>
+							 <!--  <button class="btn btn-primary parse-sql" data-stmt="false" type="button">View SQL</button> -->
+							  <button class="btn btn-primary parse-json" data-stmt="false" type="button">View Json</button>
 							</div>
 							@endif
 					</div>
@@ -183,48 +184,29 @@ $('#builder').queryBuilder({
   filters: [{
     id: 'email_value',
     label: 'Email',
-    type: 'string'
+    type: 'string',
+	operators: ['begins_with','ends_with','contains','equal', 'not_equal']
   }, {
     id: 'employee_type',
     label: 'Employee Type',
-    type: 'integer',
-    input: 'select',
-    values: {
-      1: 'Academic Staff',
-      2: 'Faculty',
-      3: 'University Staff'
-    },
-    operators: ['equal', 'not_equal', 'in', 'not_in', 'is_null', 'is_not_null']
+     type: 'string',
+    operators: ['begins_with','ends_with','contains','equal', 'not_equal']
   },
   {
     id: 'department',
     label: 'Department',
-    type: 'integer',
-    input: 'select',
-    values: {
-      1: 'Bioengineering',
-      2: 'Computer Science',
-      3: 'Materials Science',
-      4: 'Statistics'
-    },
-    operators: ['equal', 'not_equal', 'in', 'not_in', 'is_null', 'is_not_null']
+    type: 'string',
+	operators: ['begins_with','ends_with','contains','equal', 'not_equal']
   },{
     id: 'manager_email',
     label: 'Manager Email',
-    type: 'string'
+   type: 'string',
+	operators: ['begins_with','ends_with','contains','equal', 'not_equal']
   }, {
     id: 'employee_title',
     label: 'Emplyee Title',
-    type: 'string'
-  }, {
-    id: 'id',
-    label: 'Identifier',
-    type: 'string',
-    placeholder: '____-____-____',
-    operators: ['equal', 'not_equal'],
-    validation: {
-      format: /^.{4}-.{4}-.{4}$/
-    }
+   type: 'string',
+	operators: ['begins_with','ends_with','contains','equal', 'not_equal']
   }],
 
  // rules: rules_basic
@@ -232,8 +214,8 @@ $('#builder').queryBuilder({
 
 //Display sql during edit view, get sql from table
  @if (isset($smartgroup) && $smartgroup->pattern_condition!="")
-	 var sql_statement="<?php echo $smartgroup->pattern_condition;?>";
-	 $('#builder').queryBuilder('setRulesFromSQL',sql_statement);
+	 var sql_statement=<?php echo $smartgroup->pattern_condition;?>;
+	 $('#builder').queryBuilder('setRules',sql_statement);
  @endif
 
 $('#btn-reset').on('click', function() {
@@ -256,7 +238,7 @@ $('.parse-json').on('click', function() {
 });
 
 $('.parse-sql').on('click', function() {
-  var res = $('#builder').queryBuilder('getSQL', $(this).data('stmt'), false);
+  var res = $('#builder').queryBuilder( 'getSQL', false, true);
   $('#result').removeClass('hide')
     .find('pre').html(
       res.sql + (res.params ? '\n\n' + JSON.stringify(res.params, undefined, 2) : '')
@@ -265,13 +247,15 @@ $('.parse-sql').on('click', function() {
 
 
 $('#submit').on('click', function() {
-  var res = $('#builder').queryBuilder('getSQL', $(this).data('stmt'), false);
-   var sql=res.sql;
-   if(sql==""){
+   //var res = $('#builder').queryBuilder('getSQL', $(this).data('stmt'), false);
+   //var sql=res.sql;
+   var res =  $('#builder').queryBuilder('getRules',{get_flags: true});
+   if($.isEmptyObject(res)){
 	alert("Problem in pattern type selection");
 	return false;
    }
-   $('#pattern_condition').val(sql);
+   var json_string = JSON.stringify(res);
+   $('#pattern_condition').val(json_string);
 });
 });
     </script>

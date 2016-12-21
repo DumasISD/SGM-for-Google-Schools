@@ -52,7 +52,7 @@ class Smart extends Command {
      */
     public function fire() {
         $env_name = $this->argument('env_name');
-        if ($env_name != "dev" && $env_name != "production") 
+        if ($env_name != "dev" && $env_name != "production")
             throw new Exception("Error - env_name is invalid");
 
 	$keyfile = env("google_service_account_key_file2");
@@ -71,9 +71,9 @@ class Smart extends Command {
 
         $sg_list = SmartGroup::where("google_domain_id","=",$domain->id)->get();
         #print_r($sg_list);
-        
 
-    
+
+
         $next = null;
         $page=1;
         $i=1;
@@ -81,20 +81,20 @@ class Smart extends Command {
             $results=$google->getGoogleUsers($domain_name,$next);
             $users = $results->getUsers();
             #print_r($users);
-            
+
             echo "Num users: " . count($users) . "\n";
-    
+
             foreach($users as $user){
                 $email = $user['primaryEmail'];
 	        Log::info('smart email', ['context' => $email]);
-			
+
 		if ($env_name == "dev") {
 			if ($email != "christyvol@dumasschools.net" && $email != "joeparttime@dumasschools.net" && $email != "joeteacher@dumasschools.net" ) continue;
 			}
 /*  enable this code to put the cron into "safe" mode where it will consider only these emails below.
 		else {
 			if ($email != "28jimtest@dumasisd.org" && $email != "28joetest@dumasisd.org" && $email != "28jantest@dumasisd.org" &&
-			    $email != "28jimtest@disd.me" && $email != "28joetest@disd.me" && $email != "28jantest@disd.me") continue; 
+			    $email != "28jimtest@disd.me" && $email != "28joetest@disd.me" && $email != "28jantest@disd.me") continue;
 			}
 */
 
@@ -136,7 +136,7 @@ class Smart extends Command {
                                 echo "  no match for $email with the pattern: $pattern \n";
                             }
                             break;
-                        case 2:  # Organization Unit 
+                        case 2:  # Organization Unit
                             if (preg_match("/".$pattern."/", $orgUnitPath)) {
                                 echo "  match \n";
                                  $match=1;
@@ -255,7 +255,7 @@ class Smart extends Command {
                             break;
 
                     }
-                
+
                 if (!$match || $suspended) {
                     $member = $google->getGroupMember($sg->google_group_id, $user['id']);
                     if ($member) {
@@ -265,7 +265,7 @@ class Smart extends Command {
                         echo "  not yet a member \n";
                     }
                 }
-    
+
                 }
                 $i++;
             }
@@ -280,7 +280,7 @@ class Smart extends Command {
 
 
 
-        
+
     #$this->notify($late_contacts,$ok_contacts,$env_name);
     }
 
@@ -328,7 +328,7 @@ class Smart extends Command {
         if(empty($str)){
         return '';
         }
-        
+
         $new_str = new DateTime($str, new DateTimeZone('UTC') );
         $new_str->setTimeZone(new DateTimeZone( $userTimezone ));
         return $new_str->format( $format);
