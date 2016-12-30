@@ -85,18 +85,16 @@ class Smart extends Command {
             echo "Num users: " . count($users) . "\n";
 
             foreach($users as $user){
-                $email = $user['primaryEmail'];
-	        Log::info('smart email', ['context' => $email]);
+                $email_value = $user['primaryEmail'];
 
 		if ($env_name == "dev") {
-			if ($email != "christyvol@dumasschools.net" && $email != "joeparttime@dumasschools.net" && $email != "joeteacher@dumasschools.net" ) continue;
+			if ($email_value != "christyvol@dumasschools.net" && $email_value != "joeparttime@dumasschools.net" && $email_value != "joeteacher@dumasschools.net" ) continue;
 			}
-/*  enable this code to put the cron into "safe" mode where it will consider only these emails below.
 		else {
-			if ($email != "28jimtest@dumasisd.org" && $email != "28joetest@dumasisd.org" && $email != "28jantest@dumasisd.org" &&
-			    $email != "28jimtest@disd.me" && $email != "28joetest@disd.me" && $email != "28jantest@disd.me") continue;
+			if ($email_value != "28jimtest@dumasisd.org" && $email_value != "28joetest@dumasisd.org" && $email_value != "28jantest@dumasisd.org" &&
+			    $email_value != "28jimtest@disd.me" && $email_value != "28joetest@disd.me" && $email_value != "28jantest@disd.me") continue;
 			}
-*/
+	            Log::info('smart email', ['context' => $email_value]);
 
                 #print_r($user);
                 echo $i . " " . $user['name']['givenName'] . " " . $user["primaryEmail"] . " " . $user['orgUnitPath'] . " suspended: " . $user['suspended'] . "\n";
@@ -104,9 +102,32 @@ class Smart extends Command {
                 $organizations = array();
                 if (isset($user['organizations']))
                 	$organizations = $user['organizations'];
+                $employee_type=$employee_title=$costcenter=$manager_email=$department="";
+				foreach($organizations as $org) {
+                    if (isset($org['description'])) 
+				    $employee_type = $org['description'];
+                    if (isset($org['title'])) 
+				    $employee_title = $org['title'];
+                    if (isset($org['costCenter'])) 
+				    $costcenter = $org['costCenter'];
+                    if (isset($org['department'])) 
+				    $department = $org['department'];
+                    break; # just use the first value
+                    }
                 $relations = array();
                 if (isset($user['relations']))
 	                $relations = $user['relations'];
+				foreach($relations as $relation) {
+				    $type = $relation['type'];
+				    if ($type != "manager") continue;
+				    $manager_email = $relation['value'];
+                    break; # just use the first value
+                    }
+
+                echo "  type: $employee_type title: $employee_title costcenter: $costcenter mgremail: $manager_email dept: $department \n";
+
+                if (count($organizations) > 0) print_r($organizations);
+                if (count($relations) > 0) print_r($relations);
 
                 $suspended=0;
                 if ($user['suspended'] == 1)
@@ -118,10 +139,16 @@ class Smart extends Command {
                     $group_id = $sg->google_group_id;
                     #$group_id = "03x8tuzt2gq5esc";
                     $match=0;
-                    $pattern = str_replace("*",".*", $sg->regexp);
-                    switch ($sg->type) {
-                        case 1:  # email prefix
-                            if (preg_match("/".$pattern."/", $email)) {
+                    $json = $sg->pattern_condition;
+                    $query = json_decode(utf8_encode($json), true);
+                    print_r($query);
+                    # this function assumes that these variables exist: $email_value, $department, $costcenter, $manager_email, $employee_type, $employee_title
+                    $query_str = $this->condition_parser($query);
+
+                    echo "conditions: $query_str \n";
+                    eval('$found = '.$query_str.';');
+
+                            if ($found) {
                                 echo "  match \n";
                                 $match=1;
                                 $member = $google->getGroupMember($sg->google_group_id, $user['id']);
@@ -133,25 +160,9 @@ class Smart extends Command {
                                 }
 
                             } else {
-                                echo "  no match for $email with the pattern: $pattern \n";
+                                echo "  no match for $email_value with the query: $query_str\n";
                             }
-                            break;
-                        case 2:  # Organization Unit
-                            if (preg_match("/".$pattern."/", $orgUnitPath)) {
-                                echo "  match \n";
-                                 $match=1;
-                                $member = $google->getGroupMember($sg->google_group_id, $user['id']);
-                                if (!$member) {
-                                    echo "  not yet a member, so add \n";
-                                    $google->addUserToGroup($user['primaryEmail'],$sg->google_group_id);
-                                } else {
-                                    echo "  already a member \n";
-                                }
-
-                            } else {
-                                echo "  no match for $email with the pattern: $pattern \n";
-                            }
-                            break;
+/*
                         case 3:  # Employee Type
 				foreach($organizations as $org) {
 				    if (!isset($org['description'])) continue;
@@ -164,8 +175,7 @@ class Smart extends Command {
 					    echo "  not yet a member, so add \n";
 					    $google->addUserToGroup($user['primaryEmail'],$sg->google_group_id);
 					} else {
-					    echo "  already a member \n";
-					}
+					    echo "  already a member \n"; }
 
 				    } else {
 					echo "  no match for $email with the pattern: $pattern \n";
@@ -254,8 +264,9 @@ class Smart extends Command {
                             	}
                             break;
 
-                    }
+*/
 
+/*
                 if (!$match || $suspended) {
                     $member = $google->getGroupMember($sg->google_group_id, $user['id']);
                     if ($member) {
@@ -265,6 +276,7 @@ class Smart extends Command {
                         echo "  not yet a member \n";
                     }
                 }
+*/
 
                 }
                 $i++;
@@ -333,6 +345,42 @@ class Smart extends Command {
         $new_str->setTimeZone(new DateTimeZone( $userTimezone ));
         return $new_str->format( $format);
     }
+
+
+    protected function condition_parser($query) {
+        $CONDITIONS = array("AND"=> '&&', "OR"=> '&&');
+        $condition = $CONDITIONS[$query['condition']];
+        $j=0;
+        $statement ="(";
+        foreach ($query['rules'] as $rule) {
+            if ($j>0) $statement .=  " $condition ";
+            if ($rule['id']) {
+                $f = $rule['field'];
+                switch ($rule['operator']) {
+                    case "begins_with":
+                    case "ends_with":
+                    case "contains":
+                        $statement .= $rule['operator'] . "($" . $f . ", '" . $rule['value'] . "')"; 
+                        break;
+                    case "equal":
+                        $statement .= "$". $f . " == '" . $rule['value'] . "'"; 
+                        break;
+                    default:
+                        $statement .= "$" . $f . " " . $rule['operator'] . " '" . $rule['value'] . "'"; 
+                        break;
+                    }
+                }
+            else if ($rule['rules']) {
+                $statement .= $this->condition_parser($rule);
+                }
+
+        $j++;
+        }
+        $statement .= ")";
+        return $statement;
+
+    }
+
 
 
 }
