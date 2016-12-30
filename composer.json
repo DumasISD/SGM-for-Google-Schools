@@ -28,7 +28,8 @@
     "classmap" : [ "database" ],
     "psr-4" : {
       "App\\" : "app/"
-    }
+    },
+    "files": [ "app/helpers.php" ]
   },
   "config" : {
     "preferred-install" : "dist"
