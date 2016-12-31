@@ -1,7 +1,7 @@
 # SGM-for-Google-Schools
 # Donation Button
-This project is moving here
-https://github.com/keoflex/SGM-laravel-plugin
+This project is moving here and has been moved off the Laravell platform
+https://github.com/keoflex/GMS
 
 [![](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SSHAPEDWFJ2MS)
 
