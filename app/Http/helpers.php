@@ -4,16 +4,16 @@ namespace App\Helpers;
 class Helper
 {
 
-	function contains($field, $value) {
+	public static function contains($field, $value) {
 	  return preg_match("/$value/", $field);
 	}
 
 
-	function begins_with($field, $value) {
+	public static function begins_with($field, $value) {
 		return preg_match("/^$value/", $field);
 	 }
 
-	function ends_with($field, $value) {
+	public static function ends_with($field, $value) {
 		 return preg_match("/${value}$/", $field);
 	 }
  }
